@@ -1,10 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import Columned from 'react-columned';
-import { Root, GifObj } from '../../types/apiData';
-import giphyService from '../../util/giphyService';
+import { Root, Result } from '../../types/data';
+import fetchData from '../../util/fetchData';
 
-interface ITrendingSearchProps {}
+interface Props {}
 
 const Gif = styled.img`
   display: block;
@@ -12,16 +12,15 @@ const Gif = styled.img`
   margin: 0.3rem;
 `;
 
-export const TrendingSearch: React.FunctionComponent<ITrendingSearchProps> = () => {
-  const [trendingImages, setTrendingImages] = React.useState<GifObj[]>([]);
+export const TrendingSearch: React.FunctionComponent<Props> = () => {
+  const [trendingImages, setTrendingImages] = React.useState<Result[]>([]);
 
   async function useGiphyService() {
-    const giphyResponse: Root = await giphyService({});
+    const response: Root = await fetchData();
+    const { results } = response;
 
-    console.log(11111);
-
-    if (Array.isArray(giphyResponse.data) && giphyResponse.data.length > 0) {
-      setTrendingImages(giphyResponse.data);
+    if (Array.isArray(results) && results.length > 0) {
+      setTrendingImages(results);
     } else {
       setTrendingImages([]);
     }
@@ -32,9 +31,7 @@ export const TrendingSearch: React.FunctionComponent<ITrendingSearchProps> = () 
   return (
     <Columned>
       {trendingImages &&
-        trendingImages.map(element => (
-          <Gif src={element.images.downsized.url} alt={element.title}></Gif>
-        ))}
+        trendingImages.map(element => <Gif src={element.thumbnail} alt={element.title}></Gif>)}
     </Columned>
   );
 };
