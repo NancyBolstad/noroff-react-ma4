@@ -1,43 +1,43 @@
 import * as React from 'react';
 import { searchIcon } from '../../util/icons';
-import { SearchBlockWrapper, SearchFormWrapper } from '../GiphySearch/styles';
+import { Wrapper, SearchFormWrapper } from './styles';
 
 interface Props {
-  filter: (input: string) => any;
+  handler: (value: string) => any;
 }
 
-export const Search: React.FunctionComponent<Props> = ({ filter }) => {
+export const SearchRecipe: React.FunctionComponent<Props> = ({ handler }) => {
   const [searchValue, setSearchValue] = React.useState<string>('');
   return (
-    <SearchBlockWrapper>
+    <Wrapper>
       <SearchFormWrapper>
         <form
           onSubmit={(e: any) => {
             e.preventDefault();
-            setSearchValue(e.target.value);
-            filter(searchValue);
+            handler(searchValue);
           }}
         >
           <input
             id="searchForm"
             className="searchInput"
             type="text"
-            aria-label="Search gif"
-            placeholder="Search for gifs"
+            aria-label="Search"
+            placeholder="Search for recipe name"
             value={searchValue}
             onChange={(e: any) => {
               e.preventDefault();
-              setSearchValue(e.target.value);
-              filter(searchValue);
+              const searchValue = e.target.value.toLowerCase();
+              console.log(2222);
+              setSearchValue(searchValue);
             }}
           />
-          <button type="submit" aria-label="Search for gifs">
+          <button type="submit" aria-label="Search for recipe name">
             {searchIcon}
           </button>
         </form>
       </SearchFormWrapper>
-    </SearchBlockWrapper>
+    </Wrapper>
   );
 };
 
-export default Search;
+export default SearchRecipe;
