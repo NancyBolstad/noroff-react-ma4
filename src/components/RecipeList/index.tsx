@@ -10,6 +10,8 @@ interface Props {}
 export const RecipeList: React.FunctionComponent<Props> = () => {
   const [data, setData] = React.useState<Result[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
+  const [filtedData, setFiltedData] = React.useState<Result[]>([]);
+  const [isFullList, setIsFullList] = React.useState<boolean>(true);
 
   React.useEffect(() => {
     async function getAllData() {
@@ -29,7 +31,8 @@ export const RecipeList: React.FunctionComponent<Props> = () => {
       }
       return false;
     });
-    setData(newArray);
+    setFiltedData(newArray);
+    setIsFullList(false);
   }
 
   return (
@@ -38,14 +41,23 @@ export const RecipeList: React.FunctionComponent<Props> = () => {
       <SearchRecipe handler={filter} />
       <ResultWrapper>
         {loading && <Status>Loading ...</Status>}
-        {(data || []).map((element, index) => (
-          <RecipeItem
-            key={index}
-            image={element.thumbnail}
-            name={element.title}
-            ingredients={element.ingredients.split(',')}
-          ></RecipeItem>
-        ))}
+        {isFullList
+          ? (data || []).map((element, index) => (
+              <RecipeItem
+                key={index}
+                image={element.thumbnail}
+                name={element.title}
+                ingredients={element.ingredients.split(',')}
+              ></RecipeItem>
+            ))
+          : (filtedData || []).map((element, index) => (
+              <RecipeItem
+                key={index}
+                image={element.thumbnail}
+                name={element.title}
+                ingredients={element.ingredients.split(',')}
+              ></RecipeItem>
+            ))}
       </ResultWrapper>
     </Wrapper>
   );
