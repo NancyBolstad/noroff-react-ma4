@@ -5,9 +5,9 @@ import RecipeItem from '../RecipeItem';
 import SearchRecipe from '../SearchRecipe';
 import { Wrapper, ResultWrapper, Status } from './styles';
 
-interface ISearchProps {}
+interface Props {}
 
-export const RecipeList: React.FunctionComponent<ISearchProps> = () => {
+export const RecipeList: React.FunctionComponent<Props> = () => {
   const [data, setData] = React.useState<Result[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
 
@@ -24,7 +24,7 @@ export const RecipeList: React.FunctionComponent<ISearchProps> = () => {
   function filter(value: string) {
     const newArray: Result[] = data.filter(function(element) {
       const lowerCaseName = element.title.toLowerCase();
-      if (lowerCaseName.toLowerCase().startsWith(value)) {
+      if (lowerCaseName.startsWith(value)) {
         return true;
       }
       return false;

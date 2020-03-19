@@ -27,7 +27,6 @@ export const SearchRecipe: React.FunctionComponent<Props> = ({ handler }) => {
             onChange={(e: any) => {
               e.preventDefault();
               const searchValue = e.target.value.toLowerCase();
-              console.log(2222);
               setSearchValue(searchValue);
             }}
           />
