@@ -39,7 +39,12 @@ export const RecipeList: React.FunctionComponent<ISearchProps> = () => {
       <ResultWrapper>
         {loading && <Status>Loading ...</Status>}
         {(data || []).map((element, index) => (
-          <RecipeItem image={element.thumbnail} name={element.title} key={index}></RecipeItem>
+          <RecipeItem
+            key={index}
+            image={element.thumbnail}
+            name={element.title}
+            ingredients={element.ingredients.split(',')}
+          ></RecipeItem>
         ))}
       </ResultWrapper>
     </Wrapper>
