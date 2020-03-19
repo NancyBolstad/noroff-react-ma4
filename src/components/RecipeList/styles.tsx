@@ -16,9 +16,12 @@ export const Wrapper = styled.div`
 
 export const ResultWrapper = styled.div`
   max-width: 1440px;
+  width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   @media all and (min-width: 680px) {
     flex-direction: row;

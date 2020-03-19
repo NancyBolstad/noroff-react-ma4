@@ -6,16 +6,18 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   background-color: grey;
+  padding: 1rem;
 
   @media all and (min-width: 680px) {
-    width: calc(31.3333% - 2rem);
+    width: 30%;
     margin-bottom: 1.5rem;
   }
 `;
 
 const ItemName = styled.h2`
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 1.5rem;
+  margin: 1rem auto;
 `;
 
 const ItemImage = styled.img`

@@ -3,22 +3,21 @@ import { Root, Result } from '../../types/data';
 import fetchData from '../../util/fetchData';
 import RecipeItem from '../RecipeItem';
 import SearchRecipe from '../SearchRecipe';
-import { Wrapper, ResultWrapper } from './styles';
+import { Wrapper, ResultWrapper, Status } from './styles';
 
 interface ISearchProps {}
 
 export const RecipeList: React.FunctionComponent<ISearchProps> = () => {
   const [data, setData] = React.useState<Result[]>([]);
-  const [filteredData, setFilteredData] = React.useState<Result[]>([]);
-  const [showFiltered, setShowFiltered] = React.useState(false);
-
-  async function getAllData() {
-    const finding: Root = await fetchData();
-    const { results } = finding;
-    setData(results);
-  }
+  const [loading, setLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
+    async function getAllData() {
+      const finding: Root = await fetchData();
+      const { results } = finding;
+      setData(results);
+      setLoading(false);
+    }
     getAllData();
   }, []);
 
@@ -30,29 +29,19 @@ export const RecipeList: React.FunctionComponent<ISearchProps> = () => {
       }
       return false;
     });
-    console.log(newArray);
-    setFilteredData(newArray);
-    setShowFiltered(true);
+    setData(newArray);
   }
 
   return (
     <Wrapper>
       <h1>Recipe Puppy</h1>
       <SearchRecipe handler={filter} />
-      {!showFiltered && (
-        <ResultWrapper>
-          {(data || []).map((element, index) => (
-            <RecipeItem image={element.thumbnail} name={element.title} key={index}></RecipeItem>
-          ))}
-        </ResultWrapper>
-      )}
-      {showFiltered && (
-        <ResultWrapper>
-          {(filteredData || []).map((element, index) => (
-            <RecipeItem image={element.thumbnail} name={element.title} key={index}></RecipeItem>
-          ))}
-        </ResultWrapper>
-      )}
+      <ResultWrapper>
+        {loading && <Status>Loading ...</Status>}
+        {(data || []).map((element, index) => (
+          <RecipeItem image={element.thumbnail} name={element.title} key={index}></RecipeItem>
+        ))}
+      </ResultWrapper>
     </Wrapper>
   );
 };
